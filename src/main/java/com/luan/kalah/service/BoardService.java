@@ -6,6 +6,7 @@ import com.luan.kalah.model.Game;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -66,13 +67,8 @@ public class BoardService {
     /**
      * Retrieves the number os stones for a given house
      */
-    public Integer getHouseStones(int pitId, Map<Integer, Integer> houses) {
-        try {
-            return houses.get(pitId);
-        }
-        catch (NullPointerException e){
-            throw new GameException("Invalid pit " + pitId);
-        }
+    public Optional<Integer> getHouseStones(int pitId, Map<Integer, Integer> houses) {
+        return Optional.of(houses.get(pitId));
     }
 
     /**

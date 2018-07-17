@@ -69,7 +69,7 @@ public class MoveService {
      */
     private Game sow(Game game, int pitId) {
         Map<Integer, Integer> houses = game.getBoard().getHouses();
-        int houseStones = boardService.getHouseStones(pitId, houses);
+        int houseStones = boardService.getHouseStones(pitId, houses).orElseThrow(() -> new GameException("Invalid pit"));
         if (RulesValidator.isEmptyHouse().apply(houseStones)){
             throw new InvalidHouseException("Move cannot be applied, pit is empty");
         }
@@ -78,7 +78,7 @@ public class MoveService {
         boardService.clearHouse(pitId, houses);
         int currentHouse = ++pitId;
         for (; houseStones > 0; houseStones--){
-            int stones = boardService.getHouseStones(currentHouse, houses);
+            int stones = boardService.getHouseStones(currentHouse, houses).get();
             houses.put(currentHouse, ++stones);
             if(currentHouse == GameConfig.NUMBER_OF_HOUSES){
                 currentHouse = 0;
